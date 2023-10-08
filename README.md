@@ -36,7 +36,7 @@ Your menu interface should have the following functionality:
             print("Error listing countries:", e)
 
 - **Search for/select a city/cities based on postal code, country code, and/or name:** Provide a search feature that allows users to search for and select cities using criteria such as postal code, country code, and city name.
-     ```bash
+    ```bash
     # Function to search for/select a city/cities based on postal code, country code, and/or name
     def search_cities(connection):
         try:
@@ -160,3 +160,11 @@ is active or not.
 
 5. Create a rule for the venues table – instead of deleting the venue(s) this rule will set the
 active flag to false and the venue information will persist in the table.
+    ```bash
+    CREATE OR REPLACE RULE set_inactive_flag
+    AS ON DELETE TO venues
+    DO INSTEAD (
+    UPDATE venues
+    SET inactive = TRUE
+    WHERE venue_id = OLD.venue_id;
+    );

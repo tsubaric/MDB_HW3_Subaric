@@ -123,8 +123,7 @@ Your menu interface should have the following functionality:
             connection.rollback()  # Rollback the transaction in case of an error
             print("Error updating city:", e)
 
-
-    - **Delete a city:** Implement the ability to delete a city from the database.
+- **Delete a city:** Implement the ability to delete a city from the database.
         '''bash
         #Function to delete a city
         def delete_city(connection):

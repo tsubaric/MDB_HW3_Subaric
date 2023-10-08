@@ -5,7 +5,7 @@
 ### Overview
 The goal of this assignment is to become comfortable connecting a database to an application. You need to create an application that lets a user interact and manage the following tables from our in-class example:
 
-`moderndb_example.png`
+![MDB_HW3_SUBARIC](moderndb_example.png)
 
 ### Getting Started
 

@@ -77,31 +77,31 @@ Your menu interface should have the following functionality:
 
 - **Add a new city to the cities table:** Implement a feature that enables users to add a new city to the cities table, including providing details such as city name, country code, and postal code.
     '''bash
-    # Function to add a new city to the cities table
-def add_city(connection):
-    try:
-        with connection.cursor() as cursor:
-            # Gather information for the new city
-            city_name = input("Enter the city name: ")
-            country_code = input("Enter the country code: ")
-            postal_code = input("Enter the postal code: ")
+    #Function to add a new city to the cities table
+    def add_city(connection):
+        try:
+            with connection.cursor() as cursor:
+                # Gather information for the new city
+                city_name = input("Enter the city name: ")
+                country_code = input("Enter the country code: ")
+                postal_code = input("Enter the postal code: ")
 
-            # Insert the new city into the table
-            cursor.execute(
-                "INSERT INTO homework.cities (name, country_code, postal_code) "
-                "VALUES (%s, %s, %s)",
-                (city_name, country_code, postal_code)
-            )
-            connection.commit()  # Commit the transaction
-            print(f"Added {city_name} to the cities table.")
+                # Insert the new city into the table
+                cursor.execute(
+                    "INSERT INTO homework.cities (name, country_code, postal_code) "
+                    "VALUES (%s, %s, %s)",
+                    (city_name, country_code, postal_code)
+                )
+                connection.commit()  # Commit the transaction
+                print(f"Added {city_name} to the cities table.")
 
-    except psycopg2.Error as e:
-        connection.rollback()  # Rollback the transaction in case of an error
-        print("Error adding city:", e)
+        except psycopg2.Error as e:
+            connection.rollback()  # Rollback the transaction in case of an error
+            print("Error adding city:", e)
 
 - **Update a city name, country code, and/or postal code:** Allow users to update existing city records by modifying attributes such as city name, country code, and postal code.
     '''bash
-    # Function to update city information
+    #Function to update city information
     def update_city(connection):
         try:
             with connection.cursor() as cursor:
@@ -126,7 +126,7 @@ def add_city(connection):
 
     - **Delete a city:** Implement the ability to delete a city from the database.
         '''bash
-        # Function to delete a city
+        #Function to delete a city
         def delete_city(connection):
             try:
                 with connection.cursor() as cursor:
@@ -152,5 +152,3 @@ def add_city(connection):
             except psycopg2.Error as e:
                 connection.rollback()  # Rollback the transaction in case of an error
                 print("Error deleting city:", e)
-
-                

@@ -102,53 +102,55 @@ def add_city(connection):
 - **Update a city name, country code, and/or postal code:** Allow users to update existing city records by modifying attributes such as city name, country code, and postal code.
     '''bash
     # Function to update city information
-def update_city(connection):
-    try:
-        with connection.cursor() as cursor:
-            city_name = input("Enter the city name to update: ")
-            new_city_name = input("Enter the new city name: ")
-            new_country_code = input("Enter the new country code: ")
-            new_postal_code = input("Enter the new postal code: ")
+    def update_city(connection):
+        try:
+            with connection.cursor() as cursor:
+                city_name = input("Enter the city name to update: ")
+                new_city_name = input("Enter the new city name: ")
+                new_country_code = input("Enter the new country code: ")
+                new_postal_code = input("Enter the new postal code: ")
 
-            # Update the city information
-            cursor.execute(
-                "UPDATE homework.cities "
-                "SET name = %s, country_code = %s, postal_code = %s "
-                "WHERE name = %s",
-                (new_city_name, new_country_code, new_postal_code, city_name)
-            )
-            connection.commit()  # Commit the transaction
-            print(f"Updated information for {city_name}.")
-    except psycopg2.Error as e:
-        connection.rollback()  # Rollback the transaction in case of an error
-        print("Error updating city:", e)
-
-
-- **Delete a city:** Implement the ability to delete a city from the database.
-    '''bash
-    # Function to delete a city
-def delete_city(connection):
-    try:
-        with connection.cursor() as cursor:
-            city_name = input("Enter the city name to delete: ")
-
-            # Check if the city exists before deleting
-            cursor.execute(
-                "SELECT name FROM homework.cities WHERE name = %s",
-                (city_name,)
-            )
-            existing_city = cursor.fetchone()
-
-            if existing_city:
-                # Delete the city if it exists
+                # Update the city information
                 cursor.execute(
-                    "DELETE FROM homework.cities WHERE name = %s",
-                    (city_name,)
+                    "UPDATE homework.cities "
+                    "SET name = %s, country_code = %s, postal_code = %s "
+                    "WHERE name = %s",
+                    (new_city_name, new_country_code, new_postal_code, city_name)
                 )
                 connection.commit()  # Commit the transaction
-                print(f"{city_name} has been deleted from the cities table.")
-            else:
-                print(f"{city_name} does not exist in the cities table.")
-    except psycopg2.Error as e:
-        connection.rollback()  # Rollback the transaction in case of an error
-        print("Error deleting city:", e)
+                print(f"Updated information for {city_name}.")
+        except psycopg2.Error as e:
+            connection.rollback()  # Rollback the transaction in case of an error
+            print("Error updating city:", e)
+
+
+    - **Delete a city:** Implement the ability to delete a city from the database.
+        '''bash
+        # Function to delete a city
+    def delete_city(connection):
+        try:
+            with connection.cursor() as cursor:
+                city_name = input("Enter the city name to delete: ")
+
+                # Check if the city exists before deleting
+                cursor.execute(
+                    "SELECT name FROM homework.cities WHERE name = %s",
+                    (city_name,)
+                )
+                existing_city = cursor.fetchone()
+
+                if existing_city:
+                    # Delete the city if it exists
+                    cursor.execute(
+                        "DELETE FROM homework.cities WHERE name = %s",
+                        (city_name,)
+                    )
+                    connection.commit()  # Commit the transaction
+                    print(f"{city_name} has been deleted from the cities table.")
+                else:
+                    print(f"{city_name} does not exist in the cities table.")
+        except psycopg2.Error as e:
+            connection.rollback()  # Rollback the transaction in case of an error
+            print("Error deleting city:", e)
+
+            

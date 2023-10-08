@@ -23,6 +23,17 @@ To get started with this assignment, follow these steps:
 Your menu interface should have the following functionality:
 
 - **List all the countries:** Display a list of all the countries in the database.
+    ```bash
+    # Function to list all countries
+    def list_countries(connection):
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT DISTINCT country_name FROM homework.countries")
+                countries = cursor.fetchall()
+                for country in countries:
+                    print(country[0])
+        except psycopg2.Error as e:
+            print("Error listing countries:", e)
 
 - **Search for/select a city/cities based on postal code, country code, and/or name:** Provide a search feature that allows users to search for and select cities using criteria such as postal code, country code, and city name.
 

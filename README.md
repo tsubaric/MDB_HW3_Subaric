@@ -14,3 +14,7 @@ To get started with this assignment, follow these steps:
 1. Clone this repository to your local machine:
    ```bash
    git clone https://github.com/yourusername/MDB_HW3_Subaric.git
+
+2. Connecting to Postgres Database with Python or Java
+Python - https://www.postgresqltutorial.com/postgresql-python/connect/
+Java - https://www.postgresqltutorial.com/postgresql-jdbc/connecting-to-postgresql-database/

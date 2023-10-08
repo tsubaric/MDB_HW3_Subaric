@@ -36,6 +36,44 @@ Your menu interface should have the following functionality:
             print("Error listing countries:", e)
 
 - **Search for/select a city/cities based on postal code, country code, and/or name:** Provide a search feature that allows users to search for and select cities using criteria such as postal code, country code, and city name.
+     ```bash
+    # Function to search for/select a city/cities based on postal code, country code, and/or name
+    def search_cities(connection):
+        try:
+            with connection.cursor() as cursor:
+                # Gather search criteria
+                city_name = input("Enter the city name (leave empty for any): ")
+                country_code = input("Enter the country code (leave empty for any): ")
+                postal_code = input("Enter the postal code (leave empty for any): ")
+
+                # Build the SQL query dynamically based on the provided criteria
+                query = "SELECT * FROM homework.cities WHERE TRUE"
+                parameters = []
+
+                if city_name:
+                    query += " AND name = %s"
+                    parameters.append(city_name)
+
+                if country_code:
+                    query += " AND country_code = %s"
+                    parameters.append(country_code)
+
+                if postal_code:
+                    query += " AND postal_code = %s"
+                    parameters.append(postal_code)
+
+                cursor.execute(query, parameters)
+                cities = cursor.fetchall()
+
+                if cities:
+                    print("Matching cities:")
+                    for city in cities:
+                        print(city)
+                else:
+                    print("No cities found matching the criteria.")
+
+        except psycopg2.Error as e:
+            print("Error searching for cities:", e)
 
 - **Add a new city to the cities table:** Implement a feature that enables users to add a new city to the cities table, including providing details such as city name, country code, and postal code.
 

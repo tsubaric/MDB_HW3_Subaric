@@ -20,8 +20,8 @@ To get started with this assignment, follow these steps:
    
 3. Once your database is connected, the next step is to design your menu interface. As mentioned above, this can be a command line interface. Unless explicitly stated, you should NOT add any additional constraints to the database but you are welcome to define views or functions if convenient. Your interface should handle errors/database messages and communicate these to the user within the program. If an error is encountered your program should prompt the user with a decision on what to do next (re-enter query, exit to main, etc)
 Your menu interface should have the following functionality:
-• List all the countries
-• Search for/select a city/cities based on postal code, country code, and/or name
-• Add a new city to the cities table
-• Update a city name, country code, and/or postal code
-• Delete a city
+    • List all the countries
+    • Search for/select a city/cities based on postal code, country code, and/or name
+    • Add a new city to the cities table
+    • Update a city name, country code, and/or postal code
+    • Delete a city

@@ -5,11 +5,7 @@
 ### Overview
 The goal of this assignment is to become comfortable connecting a database to an application. You need to create an application that lets a user interact and manage the following tables from our in-class example:
 
-1. **Users**: This table contains information about the users of your application, such as their usernames, emails, and passwords.
-
-2. **Products**: This table stores information about various products, including their names, descriptions, and prices.
-
-3. **Orders**: The orders table keeps track of customer orders, including order IDs, customer IDs, and order dates.
+`moderndb_example.png`
 
 ### Getting Started
 

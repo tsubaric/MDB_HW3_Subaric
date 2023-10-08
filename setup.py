@@ -1,5 +1,4 @@
 import psycopg2
-# Function to add an event using the add_event procedure
 from datetime import datetime
 
 # Function to list all countries
@@ -17,12 +16,10 @@ def list_countries(connection):
 def search_cities(connection):
     try:
         with connection.cursor() as cursor:
-            # Gather search criteria
             city_name = input("Enter the city name (leave empty for any): ")
             country_code = input("Enter the country code (leave empty for any): ")
             postal_code = input("Enter the postal code (leave empty for any): ")
 
-            # Build the SQL query dynamically based on the provided criteria
             query = "SELECT * FROM homework.cities WHERE TRUE"
             parameters = []
 
@@ -55,22 +52,20 @@ def search_cities(connection):
 def add_city(connection):
     try:
         with connection.cursor() as cursor:
-            # Gather information for the new city
             city_name = input("Enter the city name: ")
             country_code = input("Enter the country code: ")
             postal_code = input("Enter the postal code: ")
 
-            # Insert the new city into the table
             cursor.execute(
                 "INSERT INTO homework.cities (name, country_code, postal_code) "
                 "VALUES (%s, %s, %s)",
                 (city_name, country_code, postal_code)
             )
-            connection.commit()  # Commit the transaction
+            connection.commit()
             print(f"Added {city_name} to the cities table.")
 
     except psycopg2.Error as e:
-        connection.rollback()  # Rollback the transaction in case of an error
+        connection.rollback()
         print("Error adding city:", e)
 
 # Function to update city information
@@ -82,17 +77,16 @@ def update_city(connection):
             new_country_code = input("Enter the new country code: ")
             new_postal_code = input("Enter the new postal code: ")
 
-            # Update the city information
             cursor.execute(
                 "UPDATE homework.cities "
                 "SET name = %s, country_code = %s, postal_code = %s "
                 "WHERE name = %s",
                 (new_city_name, new_country_code, new_postal_code, city_name)
             )
-            connection.commit()  # Commit the transaction
+            connection.commit()
             print(f"Updated information for {city_name}.")
     except psycopg2.Error as e:
-        connection.rollback()  # Rollback the transaction in case of an error
+        connection.rollback()
         print("Error updating city:", e)
 
 # Function to delete a city
@@ -101,7 +95,6 @@ def delete_city(connection):
         with connection.cursor() as cursor:
             city_name = input("Enter the city name to delete: ")
 
-            # Check if the city exists before deleting
             cursor.execute(
                 "SELECT name FROM homework.cities WHERE name = %s",
                 (city_name,)
@@ -109,17 +102,16 @@ def delete_city(connection):
             existing_city = cursor.fetchone()
 
             if existing_city:
-                # Delete the city if it exists
                 cursor.execute(
                     "DELETE FROM homework.cities WHERE name = %s",
                     (city_name,)
                 )
-                connection.commit()  # Commit the transaction
+                connection.commit()
                 print(f"{city_name} has been deleted from the cities table.")
             else:
                 print(f"{city_name} does not exist in the cities table.")
     except psycopg2.Error as e:
-        connection.rollback()  # Rollback the transaction in case of an error
+        connection.rollback()
         print("Error deleting city:", e)
 
 # Function to list all active venues given a country code
@@ -169,7 +161,6 @@ def delete_venue(connection):
         with connection.cursor() as cursor:
             venue_name = input("Enter the venue name to delete: ")
             
-            # Check if the venue exists before proceeding
             cursor.execute(
                 "SELECT venue_name FROM homework.venues WHERE venue_name = %s",
                 (venue_name,)
@@ -178,29 +169,26 @@ def delete_venue(connection):
             existing_venue = cursor.fetchone()
             
             if existing_venue:
-                # Confirm with the user before deletion
                 confirm_delete = input(f"Do you want to delete the venue '{venue_name}'? (yes/no): ").strip().lower()
                 
                 if confirm_delete == "yes":
-                    # Delete the venue
                     cursor.execute(
                         "DELETE FROM homework.venues WHERE venue_name = %s",
                         (venue_name,)
                     )
-                    connection.commit()  # Commit the transaction
+                    connection.commit()
                     print(f"{venue_name} has been deleted.")
                 else:
                     print("Deletion canceled.")
             else:
                 print(f"Venue '{venue_name}' does not exist.")
     except psycopg2.Error as e:
-        connection.rollback()  # Rollback the transaction in case of an error
+        connection.rollback()
         print("Error deleting venue:", e)
 
 # Function to add an event using SQL INSERT query
 def add_event(connection):
     try:
-        # Prompt the user for event details
         event_name = input("Enter event name: ")
         event_start = input("Enter event start date and time (YYYY-MM-DD HH:MI AM/PM): ")
         event_end = input("Enter event end date and time (YYYY-MM-DD HH:MI AM/PM): ")
@@ -208,14 +196,11 @@ def add_event(connection):
         postal_code = input("Enter postal code: ")
         country_code = input("Enter country code: ")
 
-        # Format date and time strings as timestamps
         event_start = datetime.strptime(event_start, '%Y-%m-%d %I:%M %p')
         event_end = datetime.strptime(event_end, '%Y-%m-%d %I:%M %p')
 
-        # Create a cursor
         cursor = connection.cursor()
 
-        # Get venue_id or insert a new venue if it doesn't exist
         cursor.execute(
             "SELECT venue_id FROM homework.venues WHERE name = %s AND postal_code = %s AND country_code = %s",
             (venue_name, postal_code, country_code)
@@ -223,40 +208,33 @@ def add_event(connection):
         venue_id = cursor.fetchone()
 
         if not venue_id:
-            # Venue doesn't exist, insert it
             cursor.execute(
                 "INSERT INTO homework.venues (name, postal_code, country_code) VALUES (%s, %s, %s) RETURNING venue_id",
                 (venue_name, postal_code, country_code)
             )
             venue_id = cursor.fetchone()[0]
 
-        # Insert the event
         cursor.execute(
             "INSERT INTO homework.events (title, starts, ends, venue_id) VALUES (%s, %s, %s, %s)",
             (event_name, event_start, event_end, venue_id)
         )
 
-        # Commit the transaction
         connection.commit()
 
         print("Event added successfully!")
 
     except Exception as e:
-        # Handle any exceptions
         print("Error:", e)
         
 def connect_to_postgresql():
     try:
-        # Read credentials from credentials.txt
         with open('credentials.txt', 'r') as file:
             username = file.readline().strip()
             password = file.readline().strip()
-        # Database connection parameters
         host = 's-l112.engr.uiowa.edu'
         port = 5432
         database = username 
-            
-        # Connect to the database
+        
         connection = psycopg2.connect(
             host=host,
             port=port,
@@ -302,7 +280,7 @@ def connect_to_postgresql():
             else:
                 print("Invalid choice. Please try again.")
 
-        connection.close()  # Close the database connection when done
+        connection.close()
         print("Disconnected from the database.")
 
     except Exception as e:

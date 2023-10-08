@@ -18,7 +18,7 @@ To get started with this assignment, follow these steps:
 2. Connecting to Postgres Database with Python or Java
     * Python - https://www.postgresqltutorial.com/postgresql-python/connect/
    
-## 3. Create Menu Functionality
+3. Create Menu Functionality
 
 Your menu interface should have the following functionality:
 
@@ -151,3 +151,12 @@ Your menu interface should have the following functionality:
         except psycopg2.Error as e:
             connection.rollback()  # Rollback the transaction in case of an error
             print("Error deleting city:", e)
+
+4. Create an inactive attribute in the venues table that acts as a flag indicating whether a venue
+is active or not.
+    ```bash
+    ALTER TABLE venues
+    ADD COLUMN inactive BOOLEAN DEFAULT FALSE;
+
+5. Create a rule for the venues table – instead of deleting the venue(s) this rule will set the
+active flag to false and the venue information will persist in the table.

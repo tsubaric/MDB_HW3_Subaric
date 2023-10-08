@@ -17,5 +17,5 @@ To get started with this assignment, follow these steps:
 
 2. Connecting to Postgres Database with Python or Java
 
-Python - https://www.postgresqltutorial.com/postgresql-python/connect/
-Java - https://www.postgresqltutorial.com/postgresql-jdbc/connecting-to-postgresql-database/
+    * Python - https://www.postgresqltutorial.com/postgresql-python/connect/
+    * Java - https://www.postgresqltutorial.com/postgresql-jdbc/connecting-to-postgresql-database/

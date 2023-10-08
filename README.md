@@ -168,3 +168,9 @@ active flag to false and the venue information will persist in the table.
     SET inactive = TRUE
     WHERE venue_id = OLD.venue_id;
     );
+
+6. List all the active venues given a country code
+• List of the inactive venues
+• Delete a venue using the venue name (NOTE: it may be helpful to list all the venues that
+match your DELETE criteria before proceeding to delete/deactivate these venues to let
+the user confirm)

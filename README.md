@@ -15,7 +15,7 @@ To get started with this assignment, follow these steps:
    ```bash
    git clone https://github.com/yourusername/your_repo.git
 
-2. Connecting to Postgres Database with Python or Java
+2. Connecting to Postgres Database with Python
     * Python - https://www.postgresqltutorial.com/postgresql-python/connect/
    
 3. Create Menu Functionality
@@ -199,9 +199,7 @@ active flag to false and the venue information will persist in the table.
                 cursor.execute(
                     "SELECT venue_name FROM homework.venues WHERE inactive = TRUE"
                 )
-                
                 inactive_venues = cursor.fetchall()
-                
                 if inactive_venues:
                     print("Inactive venues:")
                     for venue in inactive_venues:
@@ -218,32 +216,28 @@ active flag to false and the venue information will persist in the table.
         try:
             with connection.cursor() as cursor:
                 venue_name = input("Enter the venue name to delete: ")
-                
                 cursor.execute(
                     "SELECT venue_name FROM homework.venues WHERE venue_name = %s",
                     (venue_name,)
                 )
-                
                 existing_venue = cursor.fetchone()
-                
                 if existing_venue:
                     # Confirm with the user before deletion
                     confirm_delete = input(f"Do you want to delete the venue '{venue_name}'? (yes/no): ").strip().lower()
-                    
                     if confirm_delete == "yes":
                         # Delete the venue
                         cursor.execute(
                             "DELETE FROM homework.venues WHERE venue_name = %s",
                             (venue_name,)
                         )
-                        connection.commit()  # Commit the transaction
+                        connection.commit()  
                         print(f"{venue_name} has been deleted.")
                     else:
                         print("Deletion canceled.")
                 else:
                     print(f"Venue '{venue_name}' does not exist.")
         except psycopg2.Error as e:
-            connection.rollback()  # Rollback the transaction in case of an error
+            connection.rollback()
             print("Error deleting venue:", e)
 
 7. Prompt the user for the event information and use the add_event procedure to insert the
